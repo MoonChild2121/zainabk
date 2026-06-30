@@ -1,0 +1,98 @@
+/**
+ * Design tokens — generated from the Figma exports in
+ * `src/Primitives/Mode 1.tokens.json` and `src/Tokens/Mode 1.tokens.json`,
+ * extended with a type scale + radii for the build.
+ *
+ * Those JSON files remain the Figma source of truth ("Mode 1"). When the
+ * design changes, re-export and update the values below to match.
+ *
+ * Everything lives in one `@theme` block so each token both (a) generates a
+ * Tailwind utility and (b) is emitted as a `--*` custom property you can use
+ * raw in `style={{ ... }}`.
+ *
+ *   Primitives  — raw palette + scales (bg-green-300, text-teal-900, …).
+ *   Semantic    — role-based aliases of primitives (bg-brand, text-fg, …).
+ *   Type        — text-display / text-title / text-body / text-label.
+ *   Radii       — rounded-sm (10px) / rounded-md (24px = Figma borderRadiusMD).
+ */
+@theme {
+  /* ---------------------------------------------------------------- */
+  /* Primitives — palette (override Tailwind's default green/teal with */
+  /* the brand scales; cream is new).                                  */
+  /* ---------------------------------------------------------------- */
+  --color-green-100: #e9f2ee;
+  --color-green-200: #d9f0e7;
+  --color-green-300: #cbeddf;
+  --color-green-400: #b0e2ce;
+  --color-green-500: #89d7b7;
+  --color-green-600: #5ab48f;
+  --color-green-700: #2f8964;
+  --color-green-800: #0f593b;
+  --color-green-900: #022818;
+
+  --color-teal-100: #e8f1ef;
+  --color-teal-200: #bee1d9;
+  --color-teal-300: #8fbfb4;
+  --color-teal-400: #6fa699;
+  --color-teal-500: #428475;
+  --color-teal-600: #257160;
+  --color-teal-700: #175346;
+  --color-teal-800: #0b4135;
+  --color-teal-900: #012e24;
+
+  --color-cream-100: #fdf8ef;
+  --color-cream-200: #fff4e1;
+
+  /* ---------------------------------------------------------------- */
+  /* Semantic colors (alias primitives)                                */
+  /* ---------------------------------------------------------------- */
+  /* backgrounds → bg-page, bg-subtle */
+  --color-page: var(--color-cream-100); /* bg.page    */
+  --color-subtle: var(--color-cream-200); /* bg.subtle  */
+
+  /* surfaces → bg-surface, bg-surface-light/mid/dark */
+  --color-surface: #ffffff; /* surface.default */
+  --color-surface-light: var(--color-green-500); /* surface.light   */
+  --color-surface-mid: var(--color-teal-500); /* surface.mid     */
+  --color-surface-dark: var(--color-teal-900); /* surface.dark    */
+
+  /* brand / accent → bg-brand · text-brand · bg-accent · text-accent */
+  --color-brand: var(--color-teal-500); /* brand.default  */
+  --color-accent: var(--color-green-500); /* accent.default */
+
+  /* text (foreground) → text-fg, text-fg-subtle, text-fg-inverse */
+  --color-fg: var(--color-teal-900); /* text.primary */
+  --color-fg-subtle: var(--color-teal-500); /* text.subtle  */
+  --color-fg-inverse: var(--color-cream-200); /* text.inverse */
+
+  /* borders → border-line, border-line-subtle */
+  --color-line: var(--color-teal-500); /* border.strong */
+  --color-line-subtle: var(--color-teal-200); /* border.subtle */
+
+  /* ---------------------------------------------------------------- */
+  /* Radii → rounded-sm, rounded-md                                    */
+  /* ---------------------------------------------------------------- */
+  --radius-sm: 0.625rem; /* 10px — pills, small controls            */
+  --radius-md: 1rem; /* 16px — cards (Figma borderRadiusMD is 24; dialed down for now) */
+
+  /* ---------------------------------------------------------------- */
+  /* Type scale → text-display / text-title / text-body / text-label   */
+  /* ---------------------------------------------------------------- */
+  --text-label: 0.875rem; /* 14px — nav, small UI */
+  --text-label--line-height: 1.2;
+
+  --text-body: 1rem; /* 16px — paragraphs */
+  --text-body--line-height: 1.55;
+
+  --text-title: 1.5rem; /* 24px — card labels (Design Snippets, …) */
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.01em;
+
+  --text-heading: 2rem; /* 32px — section intros ("I design.") */
+  --text-heading--line-height: 1.05;
+  --text-heading--letter-spacing: -0.02em;
+
+  --text-display: 3.25rem; /* 52px — hero "Hi." */
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+}
