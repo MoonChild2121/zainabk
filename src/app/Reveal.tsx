@@ -33,8 +33,8 @@ export function Reveal({
       ref={ref}
       className={`${className} ${
         shown
-          ? "translate-y-0 opacity-100 motion-safe:transition-[transform,opacity] motion-safe:duration-700 motion-safe:ease-out"
-          : "motion-safe:translate-y-4 motion-safe:opacity-0"
+          ? "translate-y-0 motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out"
+          : "motion-safe:translate-y-12"
       }`}
     >
       {children}

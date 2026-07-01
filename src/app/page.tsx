@@ -451,12 +451,12 @@ export default function Home() {
                 <Image
                   src={drawing1}
                   alt="Digital painting of Sophie and Calcifer from Howl's Moving Castle"
-                  className="w-full rounded-sm shadow-xl ring-1 ring-green-100/10 motion-safe:translate-y-3 motion-safe:opacity-0 motion-safe:transition-[transform,opacity] motion-safe:duration-700 motion-safe:ease-out group-data-[inview=true]:translate-y-0 group-data-[inview=true]:opacity-100"
+                  className="w-full rounded-sm shadow-xl ring-1 ring-green-100/10 motion-safe:-translate-y-8 motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out group-data-[inview=true]:translate-y-0"
                 />
                 <Image
                   src={drawing2}
                   alt="Digital drawing of Rem from Re:Zero"
-                  className="w-full rounded-sm shadow-xl ring-1 ring-green-100/10 motion-safe:translate-y-3 motion-safe:opacity-0 motion-safe:transition-[transform,opacity] motion-safe:delay-100 motion-safe:duration-700 motion-safe:ease-out group-data-[inview=true]:translate-y-0 group-data-[inview=true]:opacity-100"
+                  className="w-full rounded-sm shadow-xl ring-1 ring-green-100/10 motion-safe:-translate-y-8 motion-safe:transition-transform motion-safe:delay-100 motion-safe:duration-700 motion-safe:ease-out group-data-[inview=true]:translate-y-0"
                 />
               </InView>
               <span className="text-title font-bold text-green-100">
