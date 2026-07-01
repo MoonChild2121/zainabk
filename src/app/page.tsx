@@ -155,9 +155,17 @@ function ContactTile({
 }
 
 /** Tech tag — tinted chip that inherits the tile's text color. */
-function Pill({ children }: { children: ReactNode }) {
+function Pill({
+  children,
+  strong = false,
+}: {
+  children: ReactNode;
+  strong?: boolean;
+}) {
   return (
-    <span className="inline-flex rounded-sm border border-current/30 bg-current/10 px-2.5 py-1 text-xs font-semibold">
+    <span
+      className={`inline-flex rounded-sm border border-current/30 px-2.5 py-1 text-xs font-semibold ${strong ? "bg-current/10" : "bg-white/25"}`}
+    >
       {children}
     </span>
   );
@@ -175,12 +183,35 @@ function Interest({ label, children }: { label: string; children?: ReactNode }) 
   );
 }
 
-const projects = [
-  { title: "FirstClass Healthcare", blurb: "Clinical operations platform" },
-  { title: "Custom POS", blurb: "Real-time retail checkout" },
-  { title: "Style Shift", blurb: "Detecting authorship changes in text" },
-  { title: "Mood-to-Music", blurb: "Prompt-driven music generation" },
-  { title: "Speed Watch", blurb: "Real-time vehicle speed detection" },
+// The two flagship projects — emphasized, image-forward, and (later) open into modals.
+const featuredProjects = [
+  { title: "FirstClass Healthcare", tagline: "Clinical operations platform" },
+  { title: "Custom POS", tagline: "Real-time retail checkout" },
+];
+
+// Supporting work — described inline on the card, no modal.
+const codeProjects = [
+  {
+    title: "Style Shift Detection",
+    tagline: "Detecting when an author stops sounding like themselves.",
+    sentence:
+      "Fine-tuned Mistral-7B with LoRA and built the full pipeline from preprocessing to F1 evaluation.",
+    tech: ["PyTorch", "LoRA", "Mistral-7B", "HuggingFace"],
+  },
+  {
+    title: "Mood-to-Music Generator",
+    tagline: "Turning emotional context into generated audio.",
+    sentence:
+      "An emotion classifier feeds intent into an LSTM generator, hitting ~80% mood-prediction accuracy.",
+    tech: ["TensorFlow", "LSTM", "Transformers"],
+  },
+  {
+    title: "Real-Time Speed Detection",
+    tagline: "Tracking vehicles and estimating speed from live footage.",
+    sentence:
+      "YOLOv8 and DeepSORT bridge detection boxes with motion trajectories for ~95% accuracy.",
+    tech: ["YOLOv8", "DeepSORT", "Computer Vision"],
+  },
 ];
 
 export default function Home() {
@@ -254,7 +285,7 @@ export default function Home() {
       <Frame id="code">
         <main className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2">
           {/* Intro tile */}
-          <section className="flex min-h-[180px] flex-col justify-center gap-3 p-2 lg:col-start-1 lg:row-start-1">
+          <section className="flex min-h-[160px] flex-col justify-center gap-3 p-2 lg:col-start-1 lg:row-start-1">
             <h2 className="text-heading font-bold text-fg">I code.</h2>
             <p className="text-body text-fg/80">
               Apps, tools, and experiments I&rsquo;ve shipped, from healthcare
@@ -262,14 +293,38 @@ export default function Home() {
             </p>
           </section>
 
-          {/* Project tiles */}
-          {projects.map((p) => (
+          {/* Flagship — dark, openable (content + modal later) */}
+          {featuredProjects.map((p) => (
             <article
               key={p.title}
-              className="flex min-h-[160px] flex-col justify-end rounded-md bg-teal-300 p-6 text-fg"
+              className="group relative flex min-h-[160px] flex-col justify-end rounded-md bg-teal-900 p-6 text-green-100"
             >
-              <h3 className="text-body font-bold">{p.title}</h3>
-              <p className="mt-1 text-sm text-fg/70">{p.blurb}</p>
+              <ArrowChip variant="onDark" className="absolute right-5 top-5" />
+              <h3 className="text-title font-bold">{p.title}</h3>
+              <p className="mt-1 text-sm text-green-100/70">{p.tagline}</p>
+            </article>
+          ))}
+
+          {/* Supporting — described inline */}
+          {codeProjects.map((p) => (
+            <article
+              key={p.title}
+              className="flex flex-col justify-between gap-8 rounded-md bg-teal-300 p-6 text-fg"
+            >
+              <div>
+                <p className="text-base leading-relaxed text-fg/85">
+                  {p.sentence}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {p.tech.map((t) => (
+                    <Pill key={t}>{t}</Pill>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-title font-bold leading-tight">{p.title}</h3>
+                <p className="mt-1 text-sm text-fg/70">{p.tagline}</p>
+              </div>
             </article>
           ))}
         </main>
@@ -279,8 +334,13 @@ export default function Home() {
       <Frame id="ai">
         <main className="grid flex-1 gap-3 lg:grid-cols-[1fr_2fr] lg:grid-rows-2">
           {/* NiftyBooks */}
-          <article className="flex min-h-[200px] flex-col rounded-md bg-teal-300 p-7 text-fg lg:col-start-1 lg:row-start-1">
-            <h3 className="text-title font-bold">NiftyBooks</h3>
+          <article className="flex min-h-[200px] flex-col rounded-md bg-teal-300 p-6 text-fg lg:col-start-1 lg:row-start-1">
+            <div className="flex items-baseline justify-between gap-3">
+              <h3 className="text-title font-bold leading-tight">NiftyBooks</h3>
+              <span className="shrink-0 text-xs font-semibold uppercase tracking-wide text-fg/55">
+                1 yr · Remote
+              </span>
+            </div>
             <p className="mt-3 text-body text-fg/85">
               Led AI-powered illustration tooling for a German startup,
               directing SDXL and FLUX LoRA development for stylized image
@@ -306,17 +366,19 @@ export default function Home() {
           </div>
 
           {/* Legal RAG Chatbot */}
-          <article className="flex min-h-[200px] flex-col rounded-md bg-teal-900 p-7 text-green-100 lg:col-start-1 lg:row-start-2">
-            <h3 className="text-title font-bold">Legal RAG Chatbot</h3>
+          <article className="flex min-h-[200px] flex-col rounded-md bg-teal-900 p-6 text-green-100 lg:col-start-1 lg:row-start-2">
+            <h3 className="text-title font-bold leading-tight">
+              Legal RAG Chatbot
+            </h3>
             <p className="mt-3 text-body text-green-100/80">
               Built a legal advisory chatbot with LangChain and a RAG pipeline
               for context-aware retrieval, cutting NLP processing time by 35%
               while improving entity recognition.
             </p>
             <div className="mt-auto flex flex-wrap gap-2 pt-4">
-              <Pill>LangChain</Pill>
-              <Pill>RAG</Pill>
-              <Pill>NLP</Pill>
+              <Pill strong>LangChain</Pill>
+              <Pill strong>RAG</Pill>
+              <Pill strong>NLP</Pill>
             </div>
           </article>
 
@@ -389,12 +451,12 @@ export default function Home() {
                 <Image
                   src={drawing1}
                   alt="Digital painting of Sophie and Calcifer from Howl's Moving Castle"
-                  className="w-full rounded-sm shadow-xl ring-1 ring-green-100/10 motion-safe:-translate-y-12 motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out group-data-[inview=true]:translate-y-0"
+                  className="w-full rounded-sm shadow-xl ring-1 ring-green-100/10 motion-safe:translate-y-3 motion-safe:opacity-0 motion-safe:transition-[transform,opacity] motion-safe:duration-700 motion-safe:ease-out group-data-[inview=true]:translate-y-0 group-data-[inview=true]:opacity-100"
                 />
                 <Image
                   src={drawing2}
                   alt="Digital drawing of Rem from Re:Zero"
-                  className="w-full rounded-sm shadow-xl ring-1 ring-green-100/10 motion-safe:-translate-y-12 motion-safe:transition-transform motion-safe:delay-100 motion-safe:duration-700 motion-safe:ease-out group-data-[inview=true]:translate-y-0"
+                  className="w-full rounded-sm shadow-xl ring-1 ring-green-100/10 motion-safe:translate-y-3 motion-safe:opacity-0 motion-safe:transition-[transform,opacity] motion-safe:delay-100 motion-safe:duration-700 motion-safe:ease-out group-data-[inview=true]:translate-y-0 group-data-[inview=true]:opacity-100"
                 />
               </InView>
               <span className="text-title font-bold text-green-100">
