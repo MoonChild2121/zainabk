@@ -1,4 +1,19 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(cd *)",
+      "Bash(node -p \"require\\('resend/package.json'\\).version\")",
+      "Bash(node -p \"require\\('zod/package.json'\\).version\")",
+      "Bash(node -p \"require\\('./node_modules/resend/package.json'\\).version\")",
+      "Bash(wait)",
+      "Bash(node -e \"console.log\\(require\\('resend/package.json'\\).version\\)\")",
+      "Bash(npm install *)",
+      "Bash(echo \"resend: INSTALLED $\\(node -e \"console.log\\(require\\('resend/package.json'\\).version\\)\"\\)\")",
+      "Bash(node -e \"console.log\\(require\\('zod/package.json'\\).version\\)\")",
+      "Bash(echo \"zod: INSTALLED $\\(node -e \"console.log\\(require\\('zod/package.json'\\).version\\)\"\\)\")",
+      "Bash(echo \"resend: $\\(node -e \"console.log\\(require\\('resend/package.json'\\).version\\)\"\\)\")"
+    ]
+  },
   "enabledPlugins": {
     "github@claude-plugins-official": true
   }

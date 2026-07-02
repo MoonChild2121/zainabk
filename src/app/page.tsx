@@ -7,6 +7,10 @@ import paperImage from "../../assets/paper.png";
 import drawing1 from "../../assets/drawing1.jpeg";
 import drawing2 from "../../assets/drawing2.jpeg";
 import { Reveal, InView } from "./Reveal";
+import { ContactForm } from "./ContactForm";
+import { Typewriter } from "./Typewriter";
+import { FlagshipProjects } from "./FlagshipProjects";
+import { DesignSnippets } from "./DesignSnippets";
 
 /** Full-viewport screen shared by every section. */
 function Frame({ id, children }: { id?: string; children: ReactNode }) {
@@ -62,7 +66,7 @@ function ArrowChip({
   const tones =
     variant === "onDark"
       ? "text-green-100 group-hover:bg-green-100 group-hover:text-teal-900"
-      : "text-teal-900 group-hover:bg-teal-900 group-hover:text-green-100";
+      : "text-teal-600 group-hover:bg-teal-500 group-hover:text-green-100";
   return (
     <span
       className={`flex shrink-0 items-center justify-center rounded-sm transition-colors duration-200 ${big ? "size-12" : "size-10"} ${tones} ${className}`}
@@ -140,9 +144,9 @@ function ContactTile({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex items-center gap-4 rounded-md bg-teal-300 p-4 text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-900"
+      className="group flex items-center gap-4 rounded-md bg-teal-200 p-4 text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-900"
     >
-      <span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-teal-900 text-green-100">
+      <span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-teal-300 text-teal-900">
         {icon}
       </span>
       <span className="flex min-w-0 flex-col">
@@ -151,6 +155,14 @@ function ContactTile({
       </span>
       <ArrowChip variant="onLight" big className="ml-auto" />
     </a>
+  );
+}
+
+/** Highlighter-style emphasis for hero copy — a soft marker swipe under the
+    lower half of the text, like a highlighter pen. */
+function Mark({ children }: { children: ReactNode }) {
+  return (
+    <span className="font-bold text-green-100">{children}</span>
   );
 }
 
@@ -183,12 +195,6 @@ function Interest({ label, children }: { label: string; children?: ReactNode }) 
   );
 }
 
-// The two flagship projects — emphasized, image-forward, and (later) open into modals.
-const featuredProjects = [
-  { title: "FirstClass Healthcare", tagline: "Clinical operations platform" },
-  { title: "Custom POS", tagline: "Real-time retail checkout" },
-];
-
 // Supporting work — described inline on the card, no modal.
 const codeProjects = [
   {
@@ -214,40 +220,81 @@ const codeProjects = [
   },
 ];
 
+// My design process — a real four-step sequence, so the steps are numbered.
+const processSteps = [
+  {
+    n: "01",
+    title: "Discover",
+    subtitle: "Research & inspiration",
+    body: "Before anything is designed, I look at what exists: Awwwards for interaction patterns, real users for context, and competitive products for gaps. Inspiration is structured, not random.",
+    tools: ["Awwwards", "Cosmos", "Reference gathering"],
+  },
+  {
+    n: "02",
+    title: "Define",
+    subtitle: "Ideation & structure",
+    body: "I map out flows and information architecture on Canva whiteboards before touching a design tool, thinking through user journeys, edge cases, and content hierarchy first.",
+    tools: ["Canva Whiteboards", "User Flows", "IA mapping"],
+  },
+  {
+    n: "03",
+    title: "Design",
+    subtitle: "Wireframes to high-fidelity",
+    body: "Low-fidelity first to validate structure, then high-fidelity in Figma, building with components and auto-layout so the design is already thinking about how it'll be built.",
+    tools: ["Figma", "Wireframing", "Component-first"],
+  },
+  {
+    n: "04",
+    title: "Build",
+    subtitle: "Design systems & handoff",
+    body: "I close the gap between design and code myself. I've built design systems in Figma and in production (GitHub Packages), so what gets designed actually ships consistently.",
+    tools: ["Design Systems", "Figma tokens", "GitHub Packages", "Stitch"],
+  },
+];
+
 export default function Home() {
   return (
-    <div className="flex min-h-dvh flex-col gap-3 bg-green-100 p-3 text-fg">
+    <div className="flex min-h-dvh flex-col gap-3 overflow-x-clip bg-teal-100 p-3 text-fg">
       {/* Screen 1 — hero */}
       <Frame id="top">
-        <main className="grid flex-1 grid-cols-1 gap-3 lg:grid-cols-[1fr_1.4fr]">
-          {/* Greeting */}
-          <section className="rise flex min-h-[280px] flex-col justify-between gap-10 rounded-md bg-teal-200 p-8 lg:p-10">
-            <div>
-              <p className="text-label font-semibold uppercase tracking-[0.18em] text-fg-subtle">
-                Software Engineer · Designer
-              </p>
-              <h1 className="mt-5 text-display font-bold text-fg">Hi.</h1>
+        <main className="grid flex-1">
+          {/* One dark teal box; the teal fades into the illustration on the right */}
+          <section className="rise group relative flex items-center overflow-hidden rounded-md bg-teal-900">
+            {/* Illustration on the right, faded; the teal fades into it */}
+            <div className="absolute inset-y-0 right-0 z-0 w-full lg:w-[58%]">
+              <Image
+                src={heroImage}
+                alt="A person rowing a small boat with a fox across a lily-covered pond toward a dense green forest"
+                fill
+                priority
+                placeholder="blur"
+                sizes="(max-width: 1024px) 100vw, 58vw"
+                className="object-cover opacity-80"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-r from-teal-900 via-teal-900/55 to-teal-900/25 lg:via-teal-900/25 lg:to-transparent"
+              />
             </div>
-            <p className="max-w-md text-body text-fg/90">
-              I&rsquo;m Zainab. I build interfaces end to end, from the system
-              underneath to the pixels on top, and I use AI as a tool in that
-              process, not a buzzword. Off-screen, I&rsquo;m usually journaling,
-              painting, or chasing quiet water.
-            </p>
+            {/* Copy on the left */}
+            <div className="relative z-10 flex max-w-xl flex-col gap-6 p-8 sm:p-12 lg:p-16">
+              <div>
+                <p className="text-label font-semibold uppercase tracking-[0.18em] text-green-100/60">
+                  Software Engineer · Designer
+                </p>
+                <h1 className="mt-5 text-display font-bold text-green-100">
+                  <Typewriter text="Hi, I’m Zainab." />
+                </h1>
+              </div>
+              <p className="max-w-xl text-lg leading-relaxed text-green-100/85">
+                I build interfaces <Mark>end to end</Mark>, from the{" "}
+                <Mark>system underneath</Mark> to the <Mark>pixels on top</Mark>,
+                so design and engineering never fight each other. I use AI as a
+                real tool, not a buzzword, to ship work that holds up in
+                production.
+              </p>
+            </div>
           </section>
-
-          {/* Illustration */}
-          <figure className="rise group relative min-h-[280px] overflow-hidden rounded-md bg-green-900 [animation-delay:180ms] lg:min-h-0">
-            <Image
-              src={heroImage}
-              alt="A person rowing a small boat with a fox across a lily-covered pond toward a dense green forest"
-              fill
-              priority
-              placeholder="blur"
-              sizes="(max-width: 1024px) 100vw, 58vw"
-              className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-            />
-          </figure>
         </main>
       </Frame>
 
@@ -255,7 +302,7 @@ export default function Home() {
       <Frame id="design">
         <main className="grid flex-1 grid-cols-1 gap-3 lg:grid-cols-2 lg:grid-rows-2">
           {/* Intro tile */}
-          <section className="flex min-h-[200px] flex-col justify-center gap-3 p-2 lg:col-start-1 lg:row-start-1">
+          <section className="flex min-h-[200px] flex-col items-center justify-center gap-3 p-2 text-center lg:col-start-1 lg:row-start-1 slide-in-left">
             <h2 className="text-heading font-bold text-fg">I design.</h2>
             <p className="max-w-sm text-body text-fg/80">
               I think in systems, not screens, and design interfaces I can
@@ -263,20 +310,32 @@ export default function Home() {
             </p>
           </section>
 
-          {/* Design Snippets — link, hover arrow, heading bottom-right */}
-          <a
-            href="#snippets"
-            className="group relative flex min-h-[200px] flex-col rounded-md bg-teal-900 p-7 text-green-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100 lg:col-start-2 lg:row-start-1"
-          >
-            <ArrowChip variant="onDark" big />
-            <h3 className="mt-auto text-right text-title font-bold">
-              Design Snippets
-            </h3>
-          </a>
+          {/* Design Snippets — opens a modal of design work */}
+          <DesignSnippets />
 
-          {/* My Process — full width, content goes here (not interactive) */}
-          <div className="flex min-h-[180px] flex-col items-center rounded-md bg-teal-300 p-7 text-fg lg:col-span-2 lg:row-start-2">
-            <h3 className="text-title font-bold">My Process</h3>
+          {/* My Process — four-step sequence, full width. Sits one standard
+              gap below the top row; cards match the app's card gap. */}
+          <div className="grid min-h-[180px] gap-3 sm:grid-cols-2 lg:col-span-2 lg:row-start-2 lg:grid-cols-4">
+            {processSteps.map((s, i) => (
+              <article
+                key={s.n}
+                className={`flex flex-col gap-3 rounded-md bg-teal-200 p-6 text-fg ${i % 2 === 0 ? "slide-in-left" : "slide-in-right"}`}
+              >
+                <div className="flex items-baseline gap-3">
+                  <span className="text-title font-bold tabular-nums text-fg/40">
+                    {s.n}
+                  </span>
+                  <div>
+                    <h4 className="text-title font-bold leading-tight">{s.title}</h4>
+                    <p className="text-sm font-medium text-fg/75">{s.subtitle}</p>
+                  </div>
+                </div>
+                <p className="text-sm leading-relaxed text-fg/90">{s.body}</p>
+                <p className="mt-auto border-t border-fg/15 pt-3 text-xs font-medium text-fg/70">
+                  {s.tools.join(" · ")}
+                </p>
+              </article>
+            ))}
           </div>
         </main>
       </Frame>
@@ -285,7 +344,7 @@ export default function Home() {
       <Frame id="code">
         <main className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2">
           {/* Intro tile */}
-          <section className="flex min-h-[160px] flex-col justify-center gap-3 p-2 lg:col-start-1 lg:row-start-1">
+          <section className="flex min-h-[160px] flex-col justify-center gap-3 p-2 lg:col-start-1 lg:row-start-1 slide-in-left">
             <h2 className="text-heading font-bold text-fg">I code.</h2>
             <p className="text-body text-fg/80">
               Apps, tools, and experiments I&rsquo;ve shipped, from healthcare
@@ -293,23 +352,14 @@ export default function Home() {
             </p>
           </section>
 
-          {/* Flagship — dark, openable (content + modal later) */}
-          {featuredProjects.map((p) => (
-            <article
-              key={p.title}
-              className="group relative flex min-h-[160px] flex-col justify-end rounded-md bg-teal-900 p-6 text-green-100"
-            >
-              <ArrowChip variant="onDark" className="absolute right-5 top-5" />
-              <h3 className="text-title font-bold">{p.title}</h3>
-              <p className="mt-1 text-sm text-green-100/70">{p.tagline}</p>
-            </article>
-          ))}
+          {/* Flagship — dark cards that open a detail overlay */}
+          <FlagshipProjects />
 
           {/* Supporting — described inline */}
-          {codeProjects.map((p) => (
+          {codeProjects.map((p, i) => (
             <article
               key={p.title}
-              className="flex flex-col justify-between gap-8 rounded-md bg-teal-300 p-6 text-fg"
+              className={`flex flex-col justify-between gap-8 rounded-md bg-teal-300 p-6 text-fg ${i % 2 === 0 ? "slide-in-left" : "slide-in-right"}`}
             >
               <div>
                 <p className="text-base leading-relaxed text-fg/85">
@@ -334,7 +384,7 @@ export default function Home() {
       <Frame id="ai">
         <main className="grid flex-1 gap-3 lg:grid-cols-[1fr_2fr] lg:grid-rows-2">
           {/* NiftyBooks */}
-          <article className="flex min-h-[200px] flex-col rounded-md bg-teal-300 p-6 text-fg lg:col-start-1 lg:row-start-1">
+          <article className="flex min-h-[200px] flex-col rounded-md bg-teal-300 p-6 text-fg lg:col-start-1 lg:row-start-1 slide-in-left">
             <div className="flex items-baseline justify-between gap-3">
               <h3 className="text-title font-bold leading-tight">NiftyBooks</h3>
               <span className="shrink-0 text-xs font-semibold uppercase tracking-wide text-fg/55">
@@ -356,7 +406,7 @@ export default function Home() {
           </article>
 
           {/* Heading */}
-          <div className="flex min-h-[200px] flex-col items-center justify-center p-8 text-center lg:col-start-2 lg:row-start-1">
+          <div className="flex min-h-[200px] flex-col items-center justify-center p-8 text-center lg:col-start-2 lg:row-start-1 slide-in-up">
             <p className="text-label font-medium uppercase tracking-[0.18em] text-fg-subtle">
               Apart from developing websites
             </p>
@@ -366,7 +416,7 @@ export default function Home() {
           </div>
 
           {/* Legal RAG Chatbot */}
-          <article className="flex min-h-[200px] flex-col rounded-md bg-teal-900 p-6 text-green-100 lg:col-start-1 lg:row-start-2">
+          <article className="flex min-h-[200px] flex-col rounded-md bg-teal-900 p-6 text-green-100 lg:col-start-1 lg:row-start-2 slide-in-left">
             <h3 className="text-title font-bold leading-tight">
               Legal RAG Chatbot
             </h3>
@@ -384,8 +434,10 @@ export default function Home() {
 
           {/* Research paper — wide feature */}
           <a
-            href="#paper"
-            className="group relative flex min-h-[200px] flex-col overflow-hidden rounded-md bg-teal-700 p-7 text-green-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100 lg:col-start-2 lg:row-start-2"
+            href="https://www.researchgate.net/publication/399978277_Towards_Early_Alzheimer's_Diagnosis_A_Fusion_of_Cognitive_and_Genetic_Data_via_Ensemble_Learning"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex min-h-[200px] flex-col overflow-hidden rounded-md bg-teal-700 p-7 text-green-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100 lg:col-start-2 lg:row-start-2 slide-in-right"
           >
             <div className="relative z-10 flex h-full max-w-[58%] flex-col">
               <p className="text-label font-semibold uppercase tracking-[0.18em] text-green-100/70">
@@ -421,7 +473,7 @@ export default function Home() {
       <Frame id="journal">
         <main className="grid flex-1 grid-rows-2 gap-3">
           {/* More About Me — centered (top half) */}
-          <header className="flex min-h-0 flex-col items-center justify-center gap-2 text-center">
+          <header className="flex min-h-0 flex-col items-center justify-center gap-2 text-center slide-in-up">
             <h2 className="text-heading font-bold text-fg">More About Me</h2>
             <p className="max-w-md text-body text-fg/80">
               When I&rsquo;m not building, I&rsquo;m journaling, painting, or deep
@@ -432,7 +484,7 @@ export default function Home() {
           {/* Journaling · Digital art · Interests (bottom half) */}
           <div className="grid min-h-0 gap-3 lg:grid-cols-3">
             {/* Journaling */}
-            <div className="relative flex min-h-[320px] flex-col overflow-hidden rounded-md bg-teal-500 p-6 lg:min-h-0">
+            <div className="relative flex min-h-[320px] flex-col overflow-hidden rounded-md bg-teal-500 p-6 lg:min-h-0 slide-in-left">
               <h3 className="relative z-10 max-w-[14ch] text-title font-bold leading-snug text-green-100">
                 A piece of everything belongs in my journal
               </h3>
@@ -446,7 +498,7 @@ export default function Home() {
             </div>
 
             {/* Digital art */}
-            <div className="flex min-h-[320px] flex-col gap-4 overflow-hidden rounded-md bg-teal-900 p-6 lg:min-h-0">
+            <div className="flex min-h-[320px] flex-col gap-4 overflow-hidden rounded-md bg-teal-900 p-6 lg:min-h-0 slide-in-up">
               <InView className="-mt-12 grid flex-1 grid-cols-2 items-start gap-3">
                 <Image
                   src={drawing1}
@@ -465,7 +517,7 @@ export default function Home() {
             </div>
 
             {/* Interests */}
-            <div className="grid gap-3 lg:grid-rows-3">
+            <div className="grid gap-3 lg:grid-rows-3 slide-in-right">
               <Interest label="Music">
                 JJBA openings on loop, Tame Impala for everything else, and an
                 embarrassing amount of One Direction when nostalgia hits.
@@ -482,44 +534,24 @@ export default function Home() {
 
       {/* Screen 6 — contact */}
       <Frame id="contact">
-        <main className="grid flex-1 grid-rows-[1fr_3fr] gap-3">
-          {/* Heading — vertically centered above the cards */}
-          <header className="flex items-center px-1">
+        <main className="flex flex-1 flex-col items-center justify-center gap-8 py-10">
+          {/* Heading — centered on the page with breathing room */}
+          <header className="text-center slide-in-up">
             <h2 className="text-heading font-bold text-fg">
               Let&rsquo;s work together.
             </h2>
+            <p className="mx-auto mt-3 max-w-md text-body text-fg/70">
+              Have a project in mind, or just want to say hi? Send a note, or
+              reach me anywhere below.
+            </p>
           </header>
 
-          <div className="grid min-h-0 gap-3 lg:grid-cols-[1.6fr_1fr]">
+          <div className="grid w-full max-w-4xl gap-3 md:grid-cols-[1.4fr_1fr]">
             {/* Message form */}
-            <form className="flex min-h-[420px] flex-col gap-3 rounded-md bg-teal-900 p-6 sm:p-7 lg:min-h-0">
-              <input
-                type="email"
-                aria-label="Your email"
-                placeholder="Your email"
-                className="rounded-sm border border-green-100/15 bg-teal-800/40 px-4 py-3 text-sm text-green-100 placeholder:text-green-100/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100/60"
-              />
-              <input
-                type="text"
-                aria-label="Subject"
-                placeholder="Subject"
-                className="rounded-sm border border-green-100/15 bg-teal-800/40 px-4 py-3 text-sm text-green-100 placeholder:text-green-100/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100/60"
-              />
-              <textarea
-                aria-label="Message"
-                placeholder="Your message"
-                className="min-h-[140px] flex-1 resize-none rounded-sm border border-green-100/15 bg-teal-800/40 px-4 py-3 text-sm text-green-100 placeholder:text-green-100/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100/60"
-              />
-              <button
-                type="submit"
-                className="self-start rounded-sm bg-teal-300 px-5 py-3 text-sm font-semibold text-teal-900 transition-colors hover:bg-teal-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100"
-              >
-                Send message
-              </button>
-            </form>
+            <ContactForm />
 
             {/* Contact methods + CV */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 slide-in-right">
               <ContactTile
                 href="https://www.linkedin.com/in/zainab-kashif-193b26218"
                 label="LinkedIn"
@@ -542,14 +574,20 @@ export default function Home() {
               <a
                 href="/Zainab_CV.pdf"
                 download
-                className="group relative flex min-h-[160px] flex-1 flex-col overflow-hidden rounded-md bg-teal-500 p-6 text-green-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100"
+                className="group relative flex min-h-[200px] flex-1 flex-col overflow-hidden rounded-md bg-teal-300 p-6 text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-900"
               >
                 <div className="relative z-10 flex items-center justify-between">
                   <span className="text-title font-bold">Get CV</span>
-                  <span className="flex size-11 items-center justify-center rounded-sm text-teal-900 transition-colors duration-200 group-hover:bg-teal-900 group-hover:text-green-100">
+                  <span className="flex size-12 items-center justify-center rounded-sm text-teal-600 transition-colors duration-200 group-hover:bg-teal-500 group-hover:text-green-100">
                     <DownloadIcon className="size-6" />
                   </span>
                 </div>
+                {/* Scrim: keeps the header legible when the light CV image
+                    slides up behind it on short viewports. */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-24 bg-gradient-to-b from-teal-300 via-teal-300/80 to-transparent"
+                />
                 <Image
                   src={cvImage}
                   alt=""

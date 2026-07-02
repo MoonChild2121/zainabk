@@ -23,7 +23,12 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col font-sans">{children}</body>
+      {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla adds
+          cz-shortcut-listen) mutate <body> before hydration; this silences that
+          one-level noise without masking real mismatches deeper in the tree. */}
+      <body suppressHydrationWarning className="flex min-h-full flex-col font-sans">
+        {children}
+      </body>
     </html>
   );
 }
