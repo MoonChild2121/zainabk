@@ -181,6 +181,14 @@ export function DesignSnippets() {
           </div>
         </div>
 
+        {/* Scrim keeps the light title legible where the fanned screenshots
+            cover the whole card on narrow (stacked) screens. Not needed at lg,
+            where the two-column layout leaves the fan clear of the title. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-[5] bg-gradient-to-t from-teal-900 via-teal-900/55 to-transparent lg:hidden"
+        />
+
         <span className="absolute right-5 top-5 z-10 flex size-12 items-center justify-center rounded-sm text-green-100 transition-colors duration-200 group-hover:bg-green-100 group-hover:text-teal-900">
           <svg
             viewBox="0 0 24 24"

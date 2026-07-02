@@ -11,6 +11,7 @@ import { ContactForm } from "./ContactForm";
 import { Typewriter } from "./Typewriter";
 import { FlagshipProjects } from "./FlagshipProjects";
 import { DesignSnippets } from "./DesignSnippets";
+import { Collapsible } from "./Collapsible";
 
 /** Full-viewport screen shared by every section. */
 function Frame({ id, children }: { id?: string; children: ReactNode }) {
@@ -317,24 +318,28 @@ export default function Home() {
               gap below the top row; cards match the app's card gap. */}
           <div className="grid min-h-[180px] gap-3 sm:grid-cols-2 lg:col-span-2 lg:row-start-2 lg:grid-cols-4">
             {processSteps.map((s, i) => (
-              <article
+              <Collapsible
                 key={s.n}
                 className={`flex flex-col gap-3 rounded-md bg-teal-200 p-6 text-fg ${i % 2 === 0 ? "slide-in-left" : "slide-in-right"}`}
-              >
-                <div className="flex items-baseline gap-3">
-                  <span className="text-title font-bold tabular-nums text-fg/40">
-                    {s.n}
-                  </span>
-                  <div>
-                    <h4 className="text-title font-bold leading-tight">{s.title}</h4>
-                    <p className="text-sm font-medium text-fg/75">{s.subtitle}</p>
+                summaryClassName="items-baseline"
+                bodyClassName="flex-1 flex-col md:flex"
+                summary={
+                  <div className="flex min-w-0 flex-1 items-baseline gap-3">
+                    <span className="text-title font-bold tabular-nums text-fg/40">
+                      {s.n}
+                    </span>
+                    <div className="min-w-0">
+                      <h4 className="text-title font-bold leading-tight">{s.title}</h4>
+                      <p className="text-sm font-medium text-fg/75">{s.subtitle}</p>
+                    </div>
                   </div>
-                </div>
+                }
+              >
                 <p className="text-sm leading-relaxed text-fg/90">{s.body}</p>
-                <p className="mt-auto border-t border-fg/15 pt-3 text-xs font-medium text-fg/70">
+                <p className="mt-3 border-t border-fg/15 pt-3 text-xs font-medium text-fg/70 md:mt-auto">
                   {s.tools.join(" · ")}
                 </p>
-              </article>
+              </Collapsible>
             ))}
           </div>
         </main>
@@ -357,25 +362,27 @@ export default function Home() {
 
           {/* Supporting — described inline */}
           {codeProjects.map((p, i) => (
-            <article
+            <Collapsible
               key={p.title}
-              className={`flex flex-col justify-between gap-8 rounded-md bg-teal-300 p-6 text-fg ${i % 2 === 0 ? "slide-in-left" : "slide-in-right"}`}
-            >
-              <div>
-                <p className="text-base leading-relaxed text-fg/85">
-                  {p.sentence}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {p.tech.map((t) => (
-                    <Pill key={t}>{t}</Pill>
-                  ))}
+              className={`flex flex-col rounded-md bg-teal-300 p-6 text-fg md:justify-between md:gap-8 ${i % 2 === 0 ? "slide-in-left" : "slide-in-right"}`}
+              summaryClassName="md:order-last"
+              bodyClassName="mt-4 md:order-first md:mt-0 md:block"
+              summary={
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-title font-bold leading-tight">{p.title}</h3>
+                  <p className="mt-1 text-sm text-fg/70">{p.tagline}</p>
                 </div>
+              }
+            >
+              <p className="text-base leading-relaxed text-fg/85">
+                {p.sentence}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {p.tech.map((t) => (
+                  <Pill key={t}>{t}</Pill>
+                ))}
               </div>
-              <div>
-                <h3 className="text-title font-bold leading-tight">{p.title}</h3>
-                <p className="mt-1 text-sm text-fg/70">{p.tagline}</p>
-              </div>
-            </article>
+            </Collapsible>
           ))}
         </main>
       </Frame>
@@ -439,7 +446,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="group relative flex min-h-[200px] flex-col overflow-hidden rounded-md bg-teal-700 p-7 text-green-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-100 lg:col-start-2 lg:row-start-2 slide-in-right"
           >
-            <div className="relative z-10 flex h-full max-w-[58%] flex-col">
+            <div className="relative z-10 flex h-full max-w-none flex-col lg:max-w-[58%]">
               <p className="text-label font-semibold uppercase tracking-[0.18em] text-green-100/70">
                 Published research
               </p>
@@ -471,9 +478,9 @@ export default function Home() {
 
       {/* Screen 5 — journal / about */}
       <Frame id="journal">
-        <main className="grid flex-1 grid-rows-2 gap-3">
+        <main className="grid flex-1 grid-rows-[auto_1fr] gap-3 lg:grid-rows-2">
           {/* More About Me — centered (top half) */}
-          <header className="flex min-h-0 flex-col items-center justify-center gap-2 text-center slide-in-up">
+          <header className="flex min-h-[28svh] flex-col items-center justify-center gap-2 py-8 text-center lg:min-h-0 lg:py-0 slide-in-up">
             <h2 className="text-heading font-bold text-fg">More About Me</h2>
             <p className="max-w-md text-body text-fg/80">
               When I&rsquo;m not building, I&rsquo;m journaling, painting, or deep
